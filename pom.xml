@@ -47,7 +47,7 @@
 	<modules>
 		<module>model</module>
 		<module>configuration</module>
-		<module>datas</module>
+		<module>persistence</module>
 		<module>services</module>
 		<module>controller</module>
 	</modules>
@@ -76,7 +76,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ma.poc</groupId>
-			<artifactId>datas</artifactId>
+			<artifactId>persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

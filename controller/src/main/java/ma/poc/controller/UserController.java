@@ -1,12 +1,16 @@
 package ma.poc.controller;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +41,22 @@ public class UserController {
 	@Autowired
 	private IUserServices services;
 
+	
+	
+	@Operation(summary = "GET ALL USERS")
+	@ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved all customers"),
+        @ApiResponse(responseCode = "401", description = "Authorization denied"),
+        @ApiResponse(responseCode = "404", description = "Not Found"),
+        @ApiResponse(responseCode = "500", description = "Unexpected system exception")
+	})
+	@GetMapping(produces = JSON_TYPE)
+	public ResponseEntity<Map> getUsers(Pageable pageable){
+		Map data = new HashMap<>();
+		data.put("data", services.getUsers(pageable));
+		return ResponseEntity.ok(data);
+	}
+	
 	@Operation(summary = "GET USER")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successfully retrieved a customer"),
 			@ApiResponse(responseCode = "401", description = "Authorization denied"),
@@ -69,6 +89,18 @@ public class UserController {
 	@PutMapping(value = "{id}", consumes = JSON_TYPE)
 	public ResponseEntity updateUser(@PathVariable String id, @Valid @RequestBody UserDTO dto) {
 		services.updateUser(id, dto);
+		return ResponseEntity.noContent().build();
+	}
+
+	@Operation(summary = "delete user")
+	@ApiResponses(value = { @ApiResponse(responseCode = "204", description = "Successfully deleted a customer"),
+			@ApiResponse(responseCode = "404", description = "Not Found"),
+			@ApiResponse(responseCode = "401", description = "Authorization denied"),
+			@ApiResponse(responseCode = "500", description = "Unexpected system exception"),
+			@ApiResponse(responseCode = "502", description = "An error has occurred with an upstream service") })
+	@DeleteMapping(value = "{id}")
+	public ResponseEntity deleteUSer(@PathVariable String id) {
+		services.deleteUser(id);
 		return ResponseEntity.noContent().build();
 	}
 
