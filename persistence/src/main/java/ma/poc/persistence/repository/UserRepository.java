@@ -1,13 +1,13 @@
 package ma.poc.persistence.repository;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import persistence.src.main.java.ma.poc.persistence.entity.User;
+import ma.poc.persistence.entity.User;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, String> {
-	
-	List<User> findByUserName(String userName, Sort sort);
+public interface UserRepository extends JpaRepository<User, String>, UserRepositoryCustom  {
 
+	List<User> findByUserName(String userName, Pageable pageable);
 }

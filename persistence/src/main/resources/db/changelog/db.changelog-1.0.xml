@@ -28,6 +28,9 @@
             <column name="INSERTED_BY" type="varchar2(255)"/>
             <column name="UPDATED_AT" type="timestamp(6)"/>
             <column name="UPDATED_BY" type="varchar2(255)"/>
+			<column name="UPDATE_DATE" type="timestamp(6)"/>
+			<column name="CONTENT" 		type="bytea"/>
+
         </createTable>
         <addUniqueConstraint tableName="UTILISATEUR" constraintName="UDX_UTILISATEUR"
                              columnNames="ID"/>

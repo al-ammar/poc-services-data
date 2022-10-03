@@ -1,5 +1,6 @@
 package ma.poc.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import ma.poc.configuration.datasource.PersitenceConfiguration;
 @Import({ PersitenceConfiguration.class, ApplicationConfiguration.class, DataSourceConfiguration.class,
 		ControllerConfiguration.class, WebConfiguration.class, OpenAPIConfiguration.class })
 public class ServicesApplication {
+
 
 	public static void main(String[] args) throws Exception {
 		new SpringApplication(ServicesApplication.class).run();

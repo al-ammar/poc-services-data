@@ -13,7 +13,7 @@
 	<groupId>ma.poc</groupId>
 	<artifactId>mypoc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mypoc</name>
+	<name>MYPOC</name>
 	<description>POC </description>
 	<packaging>pom</packaging>
 
@@ -116,6 +116,11 @@
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>${commons-codec.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jmock</groupId>

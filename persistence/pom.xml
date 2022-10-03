@@ -16,7 +16,10 @@
 			<groupId>ma.poc</groupId>
 			<artifactId>configuration</artifactId>
 		</dependency>
-		
+				<dependency>
+			<groupId>ma.poc</groupId>
+			<artifactId>model</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

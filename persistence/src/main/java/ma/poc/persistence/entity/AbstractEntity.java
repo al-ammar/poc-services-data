@@ -66,8 +66,10 @@ public class AbstractEntity implements Serializable {
 	private void onPrePersist() {
 		if (id == null) {
 			id = UUID.randomUUID().toString();
-			insertedAt = LocalDateTime.now();
 			insertedBy = "TBD";
+		}
+		if(insertedAt == null) {
+			insertedAt = LocalDateTime.now();
 		}
 	}
 
