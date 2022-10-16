@@ -21,7 +21,6 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-boot.version>2.7.3</spring-boot.version>
-		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<springdoc-openapi.version>1.6.11</springdoc-openapi.version>
 		<lombok.version>1.18.24</lombok.version>
 		<mssql-jdbc.version>11.2.1.jre11</mssql-jdbc.version>
@@ -99,6 +98,11 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-ui</artifactId>
 				<version>${springdoc-openapi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.kafka</groupId>
+				<artifactId>spring-kafka</artifactId>
+				<version>${spring-kafka.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.microsoft.sqlserver</groupId>

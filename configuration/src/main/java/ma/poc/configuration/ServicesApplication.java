@@ -6,12 +6,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import ma.poc.configuration.controller.ApplicationConfiguration;
 import ma.poc.configuration.controller.ControllerConfiguration;
 import ma.poc.configuration.controller.OpenAPIConfiguration;
 import ma.poc.configuration.controller.WebConfiguration;
 import ma.poc.configuration.datasource.DataSourceConfiguration;
 import ma.poc.configuration.datasource.PersitenceConfiguration;
+import ma.poc.configuration.services.ApplicationConfiguration;
 
 @EnableAutoConfiguration
 @SpringBootApplication

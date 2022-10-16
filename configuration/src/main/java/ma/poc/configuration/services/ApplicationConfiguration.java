@@ -1,4 +1,4 @@
-package ma.poc.configuration.controller;
+package ma.poc.configuration.services;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,9 @@ import ma.poc.models.UserDTO;
 import ma.poc.persistence.entity.User;
 import ma.poc.persistence.repository.UserRepository;
 import ma.poc.services.IUserServices;
+import ma.poc.services.kafka.messages.BuisnessEvent;
+import ma.poc.services.kafka.messages.Message;
+import ma.poc.services.kafka.messages.UserEvent;
 import ma.poc.services.mappers.UserMapper;
 
 @Slf4j
@@ -25,23 +29,34 @@ import ma.poc.services.mappers.UserMapper;
 public class UserServicesImpl implements IUserServices {
 
 	private UserRepository repository;
+	private KafkaTemplate<String, Message<? extends BuisnessEvent>> kafka;
+	private KafkaTemplate<String, Object> kafkaObject;
 
 	@Autowired
-	public UserServicesImpl(UserRepository repository) {
+	public UserServicesImpl(UserRepository repository, KafkaTemplate<String, Message<? extends BuisnessEvent>> kafka,
+			KafkaTemplate<String, Object> kafkaObject) {
+		this.kafka = kafka;
 		this.repository = repository;
+		this.kafkaObject = kafkaObject;
 	}
 
 	@Override
 	public UserDTO getUser(String id) {
 		User user = repository.findById(id).get();
-		return UserMapper.toUserDTO(user);
+		UserDTO dto = UserMapper.toUserDTO(user);
+		dto.setContent(null);
+		UserEvent event = new UserEvent();
+		event.setDto(dto);
+		kafka.send("users", new Message<UserEvent>(event));
+		kafkaObject.send("users", event);
+		return dto;
 	}
 
 	@Override
 	public UserDTO insertUser(UserDTO user) {
 		return UserMapper.toUserDTO((User) repository.save(UserMapper.toUser(user)));
 	}
-	
+
 	@Override
 	public UserDTO insertUser(UserDTO user, byte[] piece) {
 		User userDB = UserMapper.toUser(user);
@@ -84,7 +99,6 @@ public class UserServicesImpl implements IUserServices {
 
 	@Override
 	public List<UserDTO> searchUsers(UserCriteriaDTO user) {
-		return repository.searchByCritteria(user).stream().map(UserMapper::toUserDTO)
-				.collect(Collectors.toList());
+		return repository.searchByCritteria(user).stream().map(UserMapper::toUserDTO).collect(Collectors.toList());
 	}
 }
