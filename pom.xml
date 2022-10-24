@@ -22,6 +22,8 @@
 		<java.version>17</java.version>
 		<spring-boot.version>2.7.3</spring-boot.version>
 		<springdoc-openapi.version>1.6.11</springdoc-openapi.version>
+		<kafka-streams.version>2.7.1</kafka-streams.version>
+			<keycloak.version>17.0.0</keycloak.version>
 		<lombok.version>1.18.24</lombok.version>
 		<mssql-jdbc.version>11.2.1.jre11</mssql-jdbc.version>
 		<commons-codec.version>1.15</commons-codec.version>
@@ -78,9 +80,20 @@
 			<artifactId>persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+			<dependency>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter</artifactId>
+				<artifactId>spring-boot-starter-oauth2-client</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-devtools</artifactId>
+				<scope>runtime</scope>
+				<optional>true</optional>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-security</artifactId>
 				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
@@ -103,6 +116,11 @@
 				<groupId>org.springframework.kafka</groupId>
 				<artifactId>spring-kafka</artifactId>
 				<version>${spring-kafka.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-streams</artifactId>
+				<version>{kafka-streams.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.microsoft.sqlserver</groupId>
