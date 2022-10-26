@@ -8,12 +8,12 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +44,7 @@ import ma.poc.services.IUserServices;
 @RequiredArgsConstructor
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "user services", description = "Prouf of concept Services ")
+@PreAuthorize("isAuthenticated()")
 public class UserController {
 
 	private final static String JSON_TYPE = MediaType.APPLICATION_JSON_VALUE;
@@ -57,6 +58,7 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Unexpected system exception") })
 	@PostMapping(path = "/search", produces = JSON_TYPE)
+	@PreAuthorize("hasAuthority('USER')")
 	public ResponseEntity<Map> searchUsers(@RequestBody UserCriteriaDTO user) {
 		List<UserDTO> results = services.searchUsers(user);
 		Map data = new HashMap<>();
@@ -70,6 +72,7 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Unexpected system exception") })
 	@GetMapping(produces = JSON_TYPE)
+	@PreAuthorize("hasAuthority('USER')")
 	public ResponseEntity<Map> getUsers(Pageable pageable) {
 		Page<UserDTO> results = services.getUsers(pageable);
 		Map data = new HashMap<>();
