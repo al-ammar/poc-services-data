@@ -24,10 +24,10 @@ public class UserDTO {
 	@Schema(required = false)
 	private String id;
 	
-	@Schema(required = true)
+	@Schema(required = false)
 	private String userName;
 
-	@Schema(required = true)
+	@Schema(required = false)
 	private String password;
 
 	@Schema(required = false)

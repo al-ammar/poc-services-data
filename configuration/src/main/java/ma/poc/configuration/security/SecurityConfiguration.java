@@ -64,6 +64,7 @@ public class SecurityConfiguration {
 
 	public interface Jwt2AuthenticationConverter extends Converter<Jwt, AbstractAuthenticationToken> {
 	}
+	
 
 	@Bean
 	public Jwt2AuthenticationConverter authenticationConverter(Jwt2AuthoritiesConverter authoritiesConverter) {
@@ -95,20 +96,17 @@ public class SecurityConfiguration {
 			response.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Basic realm=\"Restricted Content\"");
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
 		});
-
 		// If SSL enabled, disable http (https only)
 		if (serverProperties.getSsl() != null && serverProperties.getSsl().isEnabled()) {
 			http.requiresChannel().anyRequest().requiresSecure();
 		} else {
 			http.requiresChannel().anyRequest().requiresInsecure();
 		}
-
 		// Route security: authenticated to all routes but actuator and Swagger-UI
-		// @formatter:off
-	        http.authorizeHttpRequests().antMatchers("/actuator/health/readiness", "/actuator/health/liveness", "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+	        http.authorizeHttpRequests().
+	        antMatchers("/actuator/health/readiness", "/actuator/health/liveness", 
+	        		"/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 	            .anyRequest().authenticated();
-	        // @formatter:on
-
 		return http.build();
 	}
 

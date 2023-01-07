@@ -2,10 +2,15 @@ package ma.poc.persistence.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,24 +27,25 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class User extends AbstractEntity {
 
-	@Column(name="LAST_NAME")
+	@Column(name = "LAST_NAME")
 	private String lastName;
-	
-	@Column(name="FIRST_NAME")
+
+	@Column(name = "FIRST_NAME")
 	private String firstName;
-	
+
 	@Column(name = "USERNAME")
 	private String userName;
 
 	@Column(name = "THE_PASSWORD")
 	private String thePassword;
 
-	@Column(name= "UPDATE_DATE")
+	@Column(name = "UPDATE_DATE")
 	private LocalDateTime updateDate;
-	
-	@Lob
-	@Column(name= "CONTENT")
-    private byte[] content;
 
-	
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	@Type(type = "org.hibernate.type.BinaryType")
+	@Column(name = "CONTENT")
+	private byte[] content;
+
 }

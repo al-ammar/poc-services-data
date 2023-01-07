@@ -2,9 +2,11 @@ package ma.poc.controller;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -36,6 +38,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.poc.models.UserCriteriaDTO;
 import ma.poc.models.UserDTO;
+import ma.poc.persistence.entity.User;
+import ma.poc.persistence.repository.UserRepository;
 import ma.poc.services.IUserServices;
 
 @CrossOrigin
@@ -44,13 +48,16 @@ import ma.poc.services.IUserServices;
 @RequiredArgsConstructor
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "user services", description = "Prouf of concept Services ")
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 public class UserController {
 
 	private final static String JSON_TYPE = MediaType.APPLICATION_JSON_VALUE;
 
 	@Autowired
 	private IUserServices services;
+	
+	@Autowired
+	private UserRepository repository;
 
 	@Operation(summary = "GET ALL USERS")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Successfully retrieved all customers"),
@@ -72,11 +79,21 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Unexpected system exception") })
 	@GetMapping(produces = JSON_TYPE)
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	public ResponseEntity<Map> getUsers(Pageable pageable) {
 		Page<UserDTO> results = services.getUsers(pageable);
 		Map data = new HashMap<>();
 		data.put("data", results);
+		List<User> users = new ArrayList<>();
+		for (int i = 0; i < 2000; i++) {
+			User user = new User();
+			user.setFirstName(UUID.randomUUID().toString());
+			user.setLastName(UUID.randomUUID().toString());
+			user.setUserName(UUID.randomUUID().toString());
+			user.setThePassword(UUID.randomUUID().toString());
+			users.add(user);
+		}
+		repository.saveAll(users);
 		return ResponseEntity.ok(data);
 	}
 
